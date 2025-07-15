@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SkillSwap Prototype</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #e0f7fa 0%, #ffffff 100%);
+    color: #333;
+  }
+  /* Logo container */
+  #logoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  #logoContainer svg {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    fill: #007bff;
+  }
+  h1, h2, h3 {
+    text-align: center;
+    margin-bottom: 0.5em;
+  }
+  button {
+    background-color: #007bff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgb(0 123 255 / 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 6px 12px rgb(0 86 179 / 0.4);
+  }
+  button.logout {
+    background-color: #c0392b;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 6px rgb(192 57 43 / 0.3);
+  }
+  button.logout:hover {
+    background-color: #7a2118;
+    box-shadow: 0 6px 12px rgb(122 33 24 / 0.4);
+  }
+  input, textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+    margin: 5px 0 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: border-color 0.3s ease;
+  }
+  input:focus, textarea:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  label {
+    font-weight: 600;
+  }
+  #profileForm {
+    display: none;
+    animation: fadeIn 0.6s ease forwards;
+  }
+  #matches {
+    margin-top: 20px;
+  }
+  /* Avatar style */
+  #userAvatar {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 42px;
+    text-align: center;
+    margin-right: 10px;
+    vertical-align: middle;
+    user-select: none;
+  }
+  /* Skill tags container */
+  .tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+  }
+  .tag {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 14px;
+    user-select: none;
+  }
+  .tag.learns {
+    background-color: #28a745; /* green */
+  }
+  /* Match cards */
+  .match-card {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 3px 8px rgb(0 0 0 / 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .match-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgb(0 0 0 / 0.15);
+  }
+  .match-name {
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  .skills-row {
+    margin-bottom: 12px;
+  }
+  .connect-btn {
+    background-color: #28a745;
+    border: none;
+    padding: 8px 18px;
+    color: white;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgb(40 167 69 / 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .connect-btn:hover {
+    background-color: #1e7e34;
+    box-shadow: 0 6px 12px rgb(30 126 52 / 0.4);
+  }
+  /* FadeIn animation */
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(10px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+
+  /* Section headers with icon */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #007bff;
+  }
+  .section-header svg {
+    width: 24px;
+    height: 24px;
+    fill: #007bff;
+  }
+</style>
+</head>
+<body>
+
+<!-- Logo and title -->
+<div id="logoContainer">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
+    <circle cx="32" cy="32" r="30" stroke="#007bff" stroke-width="4" fill="none"/>
+    <path d="M20 44l12-24 12 24" stroke="#007bff" stroke-width="4" fill="none" stroke-linejoin="round"/>
+  </svg>
+  <h1>SkillSwap</h1>
+</div>
+
+<div id="loginSection" style="text-align:center;">
+  <button id="loginBtn">Sign In with Google (Mock)</button>
+</div>
+
+<div id="appSection" style="display:none;">
+  <button id="logoutBtn" class="logout">Logout</button>
+  <h2>
+    <span id="userAvatar"></span>
+    Welcome, <span id="userName"></span>
+  </h2>
+
+  <form id="profileForm">
+    <div class="section-header">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      Your Skill Profile
+    </div>
+    <label for="teaches">Skills you can teach:</label>
+    <input type="text" id="teaches" placeholder="e.g. Coding, Design" />
+
+    <label for="learns">Skills you want to learn:</label>
+    <input type="text" id="learns" placeholder="e.g. Public Speaking, Music" />
+
+    <label for="bio">Short Bio:</label>
+    <textarea id="bio" rows="4" placeholder="Tell something about yourself"></textarea>
+
+    <button type="button" id="saveProfileBtn">Save Profile</button>
+  </form>
+
+  <button id="findMatchesBtn" style="margin-top:20px;">Find Matches</button>
+
+  <div id="matches"></div>
+</div>
+
+<script>
+  const loginBtn = document.getElementById("loginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const loginSection = document.getElementById("loginSection");
+  const appSection = document.getElementById("appSection");
+  const userNameSpan = document.getElementById("userName");
+  const userAvatarSpan = document.getElementById("userAvatar");
+  const saveProfileBtn = document.getElementById("saveProfileBtn");
+  const findMatchesBtn = document.getElementById("findMatchesBtn");
+  const matchesDiv = document.getElementById("matches");
+
+  let user = null;
+  let profile = { teaches: "", learns: "", bio: "" };
+
+  function getInitials(name) {
+    return name.split(" ").map(n => n[0]).join("").toUpperCase();
+  }
+
+  loginBtn.onclick = () => {
+    user = { name: "John Doe", email: "john@example.com" }; // mock user
+    userNameSpan.textContent = user.name;
+    userAvatarSpan.textContent = getInitials(user.name);
+    loginSection.style.display = "none";
+    appSection.style.display = "block";
+    document.getElementById("profileForm").style.display = "block";
+    matchesDiv.innerHTML = "";
+  };
+
+  logoutBtn.onclick = () => {
+    user = null;
+    profile = { teaches: "", learns: "", bio: "" };
+    loginSection.style.display = "block";
+    appSection.style.display = "none";
+    clearForm();
+    matchesDiv.innerHTML = "";
+  };
+
+  saveProfileBtn.onclick = () => {
+    profile.teaches = document.getElementById("teaches").value.trim();
+    profile.learns = document.getElementById("learns").value.trim();
+    profile.bio = document.getElementById("bio").value.trim();
+
+    alert("Profile saved (mock)!");
+  };
+
+  findMatchesBtn.onclick = () => {
+    const mockMatches = [
+      { name: "Alice", teaches: "Design, Photography", learns: "Coding, Python" },
+      { name: "Bob", teaches: "Music", learns: "Public Speaking" }
+    ];
+
+    let html = '<div class="section-header"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 20h10v-2H7v2zm0-7h10v-2H7v2zm0-7v2h10V6H7z"/></svg>Suggested Matches:</div>';
+    mockMatches.forEach(m => {
+      const teachesTags = m.teaches.split(",").map(s => s.trim()).map(s => `<span class="tag">${s}</span>`).join(" ");
+      const learnsTags = m.learns.split(",").map(s => s.trim()).map(s => `<span class="tag learns">${s}</span>`).join(" ");
+
+      html += `
+        <div class="match-card">
+          <div class="match-name">${m.name}</div>
+          <div class="skills-row"><strong>Teaches:</strong> ${teachesTags}</div>
+          <div class="skills-row"><strong>Wants to Learn:</strong> ${learnsTags}</div>
+          <button class="connect-btn" onclick="alert('Connecting with ${m.name} (mock)!')">Connect</button>
+        </div>
+      `;
+    });
+    matchesDiv.innerHTML = html;
+  };
+
+  function clearForm() {
+    document.getElementById("teaches").value = "";
+    document.getElementById("learns").value = "";
+    document.getElementById("bio").value = "";
+  }
+</script>
+
+</body>
+</html>
